@@ -25,8 +25,7 @@ const app = express();
 
 app.enable("trust proxy");
 
-// TODO: Edit this to build when released for prediction
-const path = __dirname + "/build/";
+const path = __dirname + "/client/build";
 
 // Serving the static files (React app)
 app.set("view engine", "html");
@@ -67,9 +66,9 @@ app.use(hpp());
 app.use(compression());
 
 // ROUTES
-app.use("/api/user", userRouter);
-app.use("/api/thursday", thursdayRouter);
-app.use("/api/sunday", sundayRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/thursday", thursdayRouter);
+app.use("/api/v1/sunday", sundayRouter);
 
 app.get("*", (req, res) => {
   res.redirect("/");
@@ -77,6 +76,10 @@ app.get("*", (req, res) => {
 
 app.get("/", (req, res) => {
   res.sendFile(path + "index.html");
+});
+
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);
