@@ -66,9 +66,9 @@ app.use(hpp());
 app.use(compression());
 
 // ROUTES
-app.use("/api/v1/user", userRouter);
-app.use("/api/v1/thursday", thursdayRouter);
-app.use("/api/v1/sunday", sundayRouter);
+app.use("/api/user", userRouter);
+app.use("/api/thursday", thursdayRouter);
+app.use("/api/sunday", sundayRouter);
 
 app.get("*", (req, res) => {
   res.redirect("/");
